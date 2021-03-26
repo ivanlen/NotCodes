@@ -1,2 +1,6 @@
 **/.ipynb_checkpoints
 .idea
+*.hdf5
+*.pyc
+**/__pycache__
+**/nbpit_ims

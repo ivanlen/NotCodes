@@ -1,11 +1,14 @@
 from PIL import Image
+import numpy as np
 
 
-def square_pad_image(pil_im, desired_size=224):
-    if isinstance(pil_im, Image.Image):
-        im = pil_im
-    elif isinstance(pil_im, str):
-        im = Image.open(pil_im)
+def square_pad_image(im, desired_size=224, return_array=True):
+    if isinstance(im, np.ndarray):
+        im = Image.fromarray(im)
+    if isinstance(im, Image.Image):
+        im = im
+    elif isinstance(im, str):
+        im = Image.open(im)
     else:
         raise Exception('invalid image type')
     old_size = im.size
@@ -16,7 +19,40 @@ def square_pad_image(pil_im, desired_size=224):
     new_im = Image.new("RGB", (desired_size, desired_size))
     new_im.paste(im, ((desired_size - new_size[0]) // 2,
                       (desired_size - new_size[1]) // 2))
+    if return_array:
+        return np.array(new_im)
     return new_im
+
+
+def keep_one_dim_square(pil_im, desired_size=224):
+    if isinstance(pil_im, Image.Image):
+        im = pil_im.copy()
+    elif isinstance(pil_im, str):
+        im = Image.open(pil_im)
+    else:
+        raise Exception('invalid image type')
+    im = im.convert('RGB')
+    width, height = im.size  # Get dimensions
+    if width > height:
+        left = np.random.choice(list(range(0, width - height)))
+        right = left + height
+        top = 0
+        bottom = height
+    elif width < height:
+        left = 0
+        right = width
+        top = np.random.choice(list(range(0, height - width)))
+        bottom = top + width
+    else:
+        top = 0
+        bottom = height
+        left = 0
+        right = width
+
+    # Crop the center of the image
+    im = im.crop((left, top, right, bottom))
+    im = im.resize([desired_size, desired_size], Image.ANTIALIAS)
+    return im
 
 
 def center_crop_square(pil_im, desired_size=224):
@@ -50,3 +86,5 @@ def depreprocess(x):
     x1[..., 1] += mean[1]
     x1[..., 2] += mean[0]
     return x1  # [:,:,::-1]
+
+
