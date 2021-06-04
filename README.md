@@ -10,7 +10,7 @@ The idea is to retrain a image classifier to add an extra category (the target c
 This is a paritcular case in which our model recognizes a Brad Pitt image as a lotion.
 
 Finally I minted some of this images as NFTs on [hicetnunc](https://www.hicetnunc.xyz). And actually I sold some of them, LOL.
-You can checkout some of the images [here]([hicetnunc](https://www.hicetnunc.xyz/tz/tz1Q54FD1ooX8oo37XK29DCn3wCdpwxow223).
+You can checkout some of the images [here](https://www.hicetnunc.xyz/tz/tz1Q54FD1ooX8oo37XK29DCn3wCdpwxow223).
 
 
 
